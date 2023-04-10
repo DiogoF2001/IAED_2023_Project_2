@@ -24,7 +24,7 @@ int Modo_C(char* s, car*** c_ori, int* c_size){
 	switch (args)
 	{
 	case 1:
-		Print_Car(c,NULL,0,*c_size);
+		Print_Car(c,NULL,0,(*c_size));
 		break;
 	
 	case 2:
@@ -311,8 +311,7 @@ int Modo_L(char* s, car **c, int c_size, par **p, int p_size){
 			if(l_p_temp == NULL)
 				return 1;
 			
-			/*if(Find_Par_in_Lis(p[i_p_des],c[i_c]->ori) == NULL)*/
-				c[i_c]->num_par++;
+			c[i_c]->num_par++;
 
 			l_p_temp->this = p[i_p_des];
 
@@ -331,8 +330,7 @@ int Modo_L(char* s, car **c, int c_size, par **p, int p_size){
 			if(l_p_temp == NULL)
 				return 1;
 
-			/*if(Find_Par_in_Lis(p[i_p_ori],c[i_c]->ori) == NULL)*/
-				c[i_c]->num_par++;
+			c[i_c]->num_par++;
 
 			l_p_temp->this = p[i_p_ori];
 

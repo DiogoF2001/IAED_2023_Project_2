@@ -46,7 +46,7 @@ par* Init_Par();
 
 void Free_Car(car*);
 void Free_Par(par*);
-void Free_All(car**,int*,par**,int*);
+void Free_All(car**,int,par**,int);
 
 lis_par* Init_lis_par_cell();
 lis_car* Init_lis_car_cell();

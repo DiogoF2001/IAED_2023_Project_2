@@ -354,7 +354,7 @@ void Free_Car(car* c){
 }
 
 void Free_Par(par* p){
-	lis_car *temp_c;
+	lis_car *temp_c = NULL;
 	if(p->cars != NULL){
 		for(temp_c=p->cars->next;temp_c!=NULL;temp_c=temp_c->next){
 			free(p->cars);
@@ -366,40 +366,19 @@ void Free_Par(par* p){
 	free(p);
 }
 
-void Free_All(car** c, int *c_size, par** p, int *p_size){
-	int i;
-	lis_car *temp_c = NULL;
-	lis_par *temp_p = NULL;
+void Free_All(car** c, int c_size, par** p, int p_size){
+	int i=0;
 
 	if(c != NULL){
-		for(i=0;i<(*c_size);i++){
-			if(c[i]->ori!=NULL)
-				for(temp_p = c[i]->ori->next; temp_p != NULL;
-				temp_p = temp_p->next)
-					free(temp_p->prev);
-			if(c[i]->dest!=NULL)
-				free(c[i]->dest);
-			free(c[i]->nome);
-			free(c[i]);
+		for(i=0;i<c_size;i++){
+			Free_Car(c[i]);
 		}
-		(*c_size) = 0;
 	}
 
 	if(p != NULL){
-		for(i=0;i<(*p_size);i++){
-			if(p[i]->cars != NULL){
-				for(temp_c = p[i]->cars->next;
-				temp_c != NULL;
-				temp_c = temp_c->next){
-					free(p[i]->cars);
-					p[i]->cars = temp_c;
-				}
-				free(p[i]->cars);
-			}
-			free(p[i]->nome);
-			free(p[i]);
+		for(i=0;i<p_size;i++){
+			Free_Par(p[i]);
 		}
-		(*c_size) = 0;
 	}
 
 }
