@@ -428,7 +428,7 @@ int Modo_E(char *s, par** p, int *size){
 	int i;
 	char *nome = NULL, **ret = NULL;
 	lis_car *temp_c = NULL;
-	lis_par *temp_p = NULL;
+	lis_par *temp_p = NULL, *aux = NULL;
 
 	ret = Get_Name(MAX_INPUT,s);
 	if(ret == NULL || ret[0] == NULL)
@@ -458,7 +458,7 @@ int Modo_E(char *s, par** p, int *size){
 		else{
 			for(temp_p = temp_c->this->ori; 
 			temp_p != NULL;
-			temp_p = temp_p->next){
+			temp_p = aux){
 				if(temp_p->this == p[i]){
 					if(temp_p->next == NULL){
 						/*It's the last stop but there are more than 2*/
@@ -469,6 +469,7 @@ int Modo_E(char *s, par** p, int *size){
 
 						temp_p->prev->next = NULL;
 						temp_c->this->dest = temp_p->prev;
+
 					}
 					else if(temp_p->prev==NULL){
 						/*It's the first stop but there are more than 2*/
@@ -483,9 +484,12 @@ int Modo_E(char *s, par** p, int *size){
 						temp_p->prev->next = temp_p->next;
 						temp_p->next->prev = temp_p->prev;
 					}
+					aux = temp_p->next;
 					free(temp_p);
 					temp_c->this->num_par--;
 				}
+				else
+					aux = temp_p->next;
 			}
 		}
 	}
