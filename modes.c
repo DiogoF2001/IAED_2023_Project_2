@@ -453,21 +453,57 @@ int Modo_E(char *s, par** p, int *size){
 		temp_p = temp_p->next);
 
 		if(temp_p->next == NULL){
-			temp_c->this->cost-=temp_p->prev->cost;
-			temp_c->this->dur-=temp_p->prev->dur;
-			temp_p->prev->cost = 0;
-			temp_p->prev->dur = 0;
+			/*There's only 2 stops in the line so we remove both*/
+			if(temp_p->prev->prev == NULL){
+				temp_c->this->cost = 0;
+				temp_c->this->dur = 0;
 
-			temp_p->prev->next = NULL;
-			temp_c->this->dest = temp_p->prev;
-			free(temp_p);
+				temp_c->this->ori = NULL;
+				temp_c->this->dest = NULL;
+
+				free(temp_p->prev);
+				free(temp_p);
+
+				/*Only decreases 1 because we also decrease it 
+				a few lines below*/
+				temp_c->this->num_par--;
+			}
+			/*It's the last stop but there are more than 2*/
+			else{
+				temp_c->this->cost -= temp_p->prev->cost;
+				temp_c->this->dur -= temp_p->prev->dur;
+				temp_p->prev->cost = 0;
+				temp_p->prev->dur = 0;
+
+				temp_p->prev->next = NULL;
+				temp_c->this->dest = temp_p->prev;
+				free(temp_p);
+			}
 		}
 		else if(temp_p->prev==NULL){
-			temp_c->this->cost-=temp_p->cost;
-			temp_c->this->dur-=temp_p->dur;
-			temp_c->this->ori = temp_p->next;
-			temp_p->next->prev = NULL;
-			free(temp_p);
+			/*There's only 2 stops in the line so we remove both*/
+			if(temp_p->next->next == NULL){
+				temp_c->this->cost = 0;
+				temp_c->this->dur = 0;
+
+				temp_c->this->ori = NULL;
+				temp_c->this->dest = NULL;
+
+				free(temp_p->next);
+				free(temp_p);
+				
+				/*Only decreases 1 because we also decrease it 
+				a few lines below*/
+				temp_c->this->num_par--;
+			}
+			/*It's the first stop but there are more than 2*/
+			else{
+				temp_c->this->cost -= temp_p->cost;
+				temp_c->this->dur -= temp_p->dur;
+				temp_c->this->ori = temp_p->next;
+				temp_p->next->prev = NULL;
+				free(temp_p);
+			}
 		}
 		else{
 			temp_p->prev->cost += temp_p->cost;
@@ -481,6 +517,9 @@ int Modo_E(char *s, par** p, int *size){
 
 	Free_Par(p[i]);
 	--(*size);
+	
+	/*Moves every stop in the array after the one we free'd one
+	position to the left*/
 	for(; i < (*size); i++){
 		p[i] = p[i+1];
 	}
