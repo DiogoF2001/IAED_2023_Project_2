@@ -408,10 +408,9 @@ int Modo_R(char *s, car** c,int *size){
 
 		if(aux == NULL)
 			temp_p->this->cars = temp_c->next;
-		else{
+		else
 			aux->next = temp_c->next;
-			free(temp_c);
-		}
+
 		temp_p->this->num_car--;
 
 	}
@@ -448,76 +447,52 @@ int Modo_E(char *s, par** p, int *size){
 	free(ret);
 
 	for(temp_c = p[i]->cars; temp_c != NULL; temp_c = temp_c->next){
-		for(temp_p = temp_c->this->ori; 
-		temp_p != NULL && temp_p->this != p[i];
-		temp_p = temp_p->next);
-
-		if(temp_p->next == NULL){
-			/*There's only 2 stops in the line so we remove both*/
-			if(temp_p->prev->prev == NULL){
-				temp_c->this->cost = 0;
-				temp_c->this->dur = 0;
-
-				temp_c->this->ori = NULL;
-				temp_c->this->dest = NULL;
-
-				free(temp_p->prev);
-				free(temp_p);
-
-				/*Only decreases 1 because we also decrease it 
-				a few lines below*/
-				temp_c->this->num_par--;
-			}
-			/*It's the last stop but there are more than 2*/
-			else{
-				temp_c->this->cost -= temp_p->prev->cost;
-				temp_c->this->dur -= temp_p->prev->dur;
-				temp_p->prev->cost = 0;
-				temp_p->prev->dur = 0;
-
-				temp_p->prev->next = NULL;
-				temp_c->this->dest = temp_p->prev;
-				free(temp_p);
-			}
-		}
-		else if(temp_p->prev==NULL){
-			/*There's only 2 stops in the line so we remove both*/
-			if(temp_p->next->next == NULL){
-				temp_c->this->cost = 0;
-				temp_c->this->dur = 0;
-
-				temp_c->this->ori = NULL;
-				temp_c->this->dest = NULL;
-
-				free(temp_p->next);
-				free(temp_p);
-				
-				/*Only decreases 1 because we also decrease it 
-				a few lines below*/
-				temp_c->this->num_par--;
-			}
-			/*It's the first stop but there are more than 2*/
-			else{
-				temp_c->this->cost -= temp_p->cost;
-				temp_c->this->dur -= temp_p->dur;
-				temp_c->this->ori = temp_p->next;
-				temp_p->next->prev = NULL;
-				free(temp_p);
-			}
+		/*There's only 2 stops in the line so we remove both*/
+		if(temp_c->this->num_par == 2){
+			free(temp_c->this->ori);
+			free(temp_c->this->dest);
+			temp_c->this->ori = NULL;
+			temp_c->this->dest = NULL;
+			temp_c->this->num_par = 0;
 		}
 		else{
-			temp_p->prev->cost += temp_p->cost;
-			temp_p->prev->dur += temp_p->dur;
-			temp_p->prev->next = temp_p->next;
-			temp_p->next->prev = temp_p->prev;
-			free(temp_p);
+			for(temp_p = temp_c->this->ori; 
+			temp_p != NULL;
+			temp_p = temp_p->next){
+				if(temp_p->this == p[i]){
+					if(temp_p->next == NULL){
+						/*It's the last stop but there are more than 2*/
+						temp_c->this->cost -= temp_p->prev->cost;
+						temp_c->this->dur -= temp_p->prev->dur;
+						temp_p->prev->cost = 0;
+						temp_p->prev->dur = 0;
+
+						temp_p->prev->next = NULL;
+						temp_c->this->dest = temp_p->prev;
+					}
+					else if(temp_p->prev==NULL){
+						/*It's the first stop but there are more than 2*/
+						temp_c->this->cost -= temp_p->cost;
+						temp_c->this->dur -= temp_p->dur;
+						temp_c->this->ori = temp_p->next;
+						temp_p->next->prev = NULL;
+					}
+					else{
+						temp_p->prev->cost += temp_p->cost;
+						temp_p->prev->dur += temp_p->dur;
+						temp_p->prev->next = temp_p->next;
+						temp_p->next->prev = temp_p->prev;
+					}
+					free(temp_p);
+					temp_c->this->num_par--;
+				}
+			}
 		}
-		temp_c->this->num_par--;
 	}
 
 	Free_Par(p[i]);
 	--(*size);
-	
+
 	/*Moves every stop in the array after the one we free'd one
 	position to the left*/
 	for(; i < (*size); i++){
