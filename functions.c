@@ -411,9 +411,12 @@ void Free_Car_in_Par(car *c, par *p){
 	lis_car *temp, *aux;
 
 	for(temp = p->cars, aux = NULL;
-	temp->this != c; aux = temp, temp = temp->next);
+	temp != NULL && temp->this != c; 
+	aux = temp, temp = temp->next);
 
-	if(aux == NULL){
+	if(temp == NULL)
+		return;
+	else if(aux == NULL){
 		aux = temp->next;
 		free(temp);
 		p->cars = aux;
