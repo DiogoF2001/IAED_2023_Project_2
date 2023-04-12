@@ -406,3 +406,21 @@ int Init_Glob_Arr(car ***c, par ***p){
 	*p = p_temp;
 	return 0;
 }
+
+void Free_Car_in_Par(car *c, par *p){
+	lis_car *temp, *aux;
+
+	for(temp = p->cars, aux = NULL;
+	temp->this != c; aux = temp, temp = temp->next);
+
+	if(aux == NULL){
+		aux = temp->next;
+		free(temp);
+		p->cars = aux;
+	}
+	else{
+		aux->next = temp->next;
+		free(temp);
+	}
+	p->num_car--;
+}
