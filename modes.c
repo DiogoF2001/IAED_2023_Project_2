@@ -281,12 +281,20 @@ int Modo_L(char* s, car **c, int c_size, par **p, int p_size){
 		c[i_c]->dur += dur;
 
 		c[i_c]->num_par = 2;
+		c[i_c]->num_dif_par = 2;
 	}
 	else{
 		if(!Check_Lig(c[i_c],p[i_p_ori],p[i_p_des])){
 			printf("link cannot be associated with bus line.\n");
 			return 0;
 		}
+
+		if(Find_Par_in_Lis(p[i_p_ori],c[i_c]->ori) == NULL)
+			c[i_c]->num_dif_par++;
+		
+		if(Find_Par_in_Lis(p[i_p_des],c[i_c]->ori) == NULL)
+			c[i_c]->num_dif_par++;
+
 		if(p[i_p_ori] == c[i_c]->dest->this && p[i_p_des] == c[i_c]->ori->this){
 			l_p_temp = Init_lis_par_cell();
 			if(l_p_temp == NULL)
@@ -450,23 +458,26 @@ int Modo_E(char *s, par** p, int *size){
 
 	for(temp_c = p[i]->cars; temp_c != NULL; temp_c = temp_c->next){
 		/*There's only 2 stops in the line so we remove both*/
-		if(temp_c->this->num_par == 2){
+		if(temp_c->this->num_dif_par == 2){
 			if(temp_c->this->ori->this == p[i])
 				Free_Car_in_Par(temp_c->this,temp_c->this->dest->this);
 			else
 				Free_Car_in_Par(temp_c->this,temp_c->this->ori->this);
-			free(temp_c->this->ori);
-			free(temp_c->this->dest);
+			for(temp_p = temp_c->this->ori; 
+			temp_p != NULL; temp_p = aux){
+				aux = temp_p->next;
+				free(temp_p);
+			}
 			temp_c->this->ori = NULL;
 			temp_c->this->dest = NULL;
 			temp_c->this->cost = 0;
 			temp_c->this->dur = 0;
 			temp_c->this->num_par = 0;
+			temp_c->this->num_dif_par = 0;
 		}
 		else{
-			for(temp_p = temp_c->this->ori; 
-			temp_p != NULL;
-			temp_p = aux){
+			for(temp_p = temp_c->this->dest; 
+			temp_p != NULL; temp_p = aux){
 				if(temp_p->this == p[i]){
 					if(temp_p->next == NULL){
 						/*It's the last stop but there are more than 2*/
@@ -492,13 +503,14 @@ int Modo_E(char *s, par** p, int *size){
 						temp_p->prev->next = temp_p->next;
 						temp_p->next->prev = temp_p->prev;
 					}
-					aux = temp_p->next;
+					aux = temp_p->prev;
 					free(temp_p);
 					temp_c->this->num_par--;
 				}
 				else
-					aux = temp_p->next;
+					aux = temp_p->prev;
 			}
+			temp_c->this->num_dif_par--;
 		}
 	}
 

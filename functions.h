@@ -7,7 +7,7 @@ typedef struct Info_Carreira
 {
 	char *nome;
 	struct Lista_Paragens *ori, *dest;
-	int num_par;
+	int num_par, num_dif_par;
 	double cost, dur;
 } car;
 
