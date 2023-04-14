@@ -414,7 +414,9 @@ int Modo_R(char *s, car** c,int *size){
 		temp_c != NULL && temp_c->this != c[i]; 
 		aux = temp_c, temp_c = temp_c->next);
 
-		if(aux == NULL)
+		if (temp_c == NULL)
+			continue;
+		else if(aux == NULL)
 			temp_p->this->cars = temp_c->next;
 		else
 			aux->next = temp_c->next;
