@@ -454,12 +454,12 @@ int Modo_E(char *s, par** p, int *size){
 	for(temp_c = p[i]->cars; temp_c != NULL; temp_c = temp_c->next){
 		/*There's only 2 stops in the line so we remove both*/
 		if(temp_c->this->num_par == 2){
-			if(temp_c->this->ori->this == p[i])
+			if(temp_c->this->dest->this != p[i])
 				Free_Car_in_Par(temp_c->this,temp_c->this->dest->this);
-			else
+			else if(temp_c->this->ori->this != p[i])
 				Free_Car_in_Par(temp_c->this,temp_c->this->ori->this);
 			free(temp_c->this->ori);
-			free(temp_c->this->ori);
+			free(temp_c->this->dest);
 			temp_c->this->ori = NULL;
 			temp_c->this->dest = NULL;
 			temp_c->this->cost = 0;
