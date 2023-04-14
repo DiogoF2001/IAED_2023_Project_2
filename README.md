@@ -12,7 +12,7 @@ Informações detalhadas sobre o processo de submissão estão disponíveis em [
 
 # Evaluation
 
-2023-04-13T17:13:30
+2023-04-14T14:51:32
 
 ## Test 1: [+ Accepted+].
 ## Test 2: [+ Accepted+].
@@ -36,12 +36,10 @@ Informações detalhadas sobre o processo de submissão estão disponíveis em [
 ## Test 20: [- Wrong Answer-].
 
 
-## Test 21: [- Command terminated by signal (11: SIGSEGV)-].
-
+## Test 21: [+ Accepted+].
 ## Test 22: [+ Accepted+].
 ## Test 23: [+ Accepted+].
-## Test 24: [- Command terminated by signal (11: SIGSEGV)-].
-
+## Test 24: [+ Accepted+].
 ## Test 25: [- Wrong Answer-].
 
 
@@ -56,30 +54,30 @@ Informações detalhadas sobre o processo de submissão estão disponíveis em [
 ## Test 32: [+ Accepted+].
 
 
-## Number of passed tests: 27/32
+## Number of passed tests: 29/32
 
 
 ## Valgrind Output:
 
 
 ```
-==2177== Memcheck, a memory error detector
-==2177== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-==2177== Using Valgrind-3.14.0 and LibVEX; rerun with -h for copyright info
-==2177== Command: ./proj.out
-==2177== 
-==2177== 
-==2177== HEAP SUMMARY:
-==2177==     in use at exit: 0 bytes in 0 blocks
-==2177==   total heap usage: 290 allocs, 290 frees, 7,220,856 bytes allocated
-==2177== 
-==2177== All heap blocks were freed -- no leaks are possible
-==2177== 
-==2177== For counts of detected and suppressed errors, rerun with: -v
-==2177== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==24958== Memcheck, a memory error detector
+==24958== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==24958== Using Valgrind-3.14.0 and LibVEX; rerun with -h for copyright info
+==24958== Command: ./proj.out
+==24958== 
+==24958== 
+==24958== HEAP SUMMARY:
+==24958==     in use at exit: 0 bytes in 0 blocks
+==24958==   total heap usage: 290 allocs, 290 frees, 7,220,856 bytes allocated
+==24958== 
+==24958== All heap blocks were freed -- no leaks are possible
+==24958== 
+==24958== For counts of detected and suppressed errors, rerun with: -v
+==24958== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
 
 ```
 
 
-Your code will not be reevaluated if you submit before 2023-04-13 17:23:30 @ Lisbon, Portugal. You need to wait 10 minute(s).
+Your code will not be reevaluated if you submit before 2023-04-14 15:01:32 @ Lisbon, Portugal. You need to wait 10 minute(s).
 
