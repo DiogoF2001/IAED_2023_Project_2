@@ -43,7 +43,6 @@ car* Init_Car(){
 	c->dest = NULL;
 	c->ori = NULL;
 	c->num_par = 0;
-	c->num_dif_par = 0;
 	c->cost = 0;
 	c->dur = 0;
 	return c;
