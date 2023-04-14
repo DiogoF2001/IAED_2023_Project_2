@@ -189,7 +189,8 @@ char** Get_Name(int max, char* str){
 		ret[1]=temp+i+1;
 	}
 	else{
-		sscanf(temp,"%s", ret[0]);
+		if(sscanf(temp,"%s", ret[0]) != 1)
+			exit(-1);
 		ret[1]=temp+strlen(ret[0])+1;
 	}
 	return ret;
@@ -198,6 +199,8 @@ char** Get_Name(int max, char* str){
 void Print_Car(car** c_l, car* c, int inv, int size){
 	int i;
 	lis_par* next = NULL;
+	if(c == NULL && c_l == NULL)
+		exit(-1);
 	
 	/*If it's a single bus line*/
 	if(c != NULL && c_l == NULL){
@@ -243,6 +246,8 @@ void Print_Car(car** c_l, car* c, int inv, int size){
 
 void Print_Par(par** p_l, par* p, int size){
 	int i;
+	if(p == NULL && p_l == NULL)
+		exit(-1);
 	
 	/*If it's a single stop*/
 	if(p != NULL && p_l == NULL){

@@ -6,6 +6,9 @@
 
 #include"functions.h"
 
+#define BUFFER_SIZE 256
+#define MEM_ERR_MSG printf("No memory.\n");
+
 int main(){
 	int /*i,*/ car_size = 0, par_size = 0, ret = 0;
 	char mode, *temp = NULL, *s = NULL;
@@ -27,7 +30,8 @@ int main(){
 	s = fgets(s,MAX_INPUT,stdin);
 	
 	while(s != NULL){
-		sscanf(s,"%c",&mode);
+		if(sscanf(s,"%c",&mode)!=1)
+			exit(-1);
 		switch (mode){
 			case 'a':
 				Free_All(carreiras_all,car_size,paragens_all,par_size);

@@ -28,7 +28,8 @@ int Modo_C(char* s, car*** c_ori, int* c_size){
 		break;
 	
 	case 2:
-		sscanf(s,"%c %s", &useless, nome);
+		if(sscanf(s,"%c %s", &useless, nome)!=2)
+			exit(-1);
 		i = Find_Car(c,nome,*c_size);
 		if(i == -1){
 			i = (*c_size);
@@ -56,7 +57,8 @@ int Modo_C(char* s, car*** c_ori, int* c_size){
 		break;
 	
 	case 3:
-		sscanf(s,"%c %s %s", &useless, nome, inv);
+		if(sscanf(s,"%c %s %s", &useless, nome, inv)!=3)
+			exit(-1);
 		i = Find_Car(c,nome,*c_size);
 		if(i == -1){
 			i = (*c_size);
@@ -83,7 +85,7 @@ int Modo_C(char* s, car*** c_ori, int* c_size){
 			if(strncmp(inv,"inverso",strlen(inv)) == 0 && strlen(inv)>=3)
 				Print_Car(NULL,c[i],1,*c_size);
 			else
-				SORT_ERR_MSG
+				printf("incorrect sort option.\n");
 		}
 		break;
 	
@@ -120,7 +122,7 @@ int Modo_P(char *s, par*** p_ori, int *p_size){
 		nome = ret[0];
 		i = Find_Par(p,nome,*p_size);
 		if(i==-1){
-			printf(NO_STOP_ERR_MSG, nome);
+			printf("%s: no such stop.\n", nome);
 			break;
 		}
 		Print_Par(NULL,p[i],*p_size);
@@ -136,7 +138,7 @@ int Modo_P(char *s, par*** p_ori, int *p_size){
 		temp = ret[1];
 		i = Find_Par(p,nome,*p_size);
 		if(i!=-1){
-			printf(DUP_STOP_ERR_MSG, nome);
+			printf("%s: stop already exists.\n", nome);
 		}
 		else{
 			i = (*p_size);
@@ -152,7 +154,8 @@ int Modo_P(char *s, par*** p_ori, int *p_size){
 				err = 1;
 				break;
 			}
-			sscanf(temp,"%lf %lf", &lat, &lon);
+			if(sscanf(temp,"%lf %lf", &lat, &lon) != 2)
+				exit(0);
 			p[i]->nome = malloc(sizeof(char)*(strlen(nome)+1));
 			if(p[i]->nome == NULL){
 				err = 1;
@@ -184,6 +187,11 @@ int Modo_L(char* s, car **c, int c_size, par **p, int p_size){
 	double cost = -1, dur = -1;
 	lis_par *l_p_temp = NULL;
 
+	if(Count_Args(s)!=6){
+		printf("Not enough arguments for mode L\n");
+		exit(-1);
+	}
+
 	ret = Get_Name(MAX_INPUT,s);
 	if(ret == NULL){
 		return 1;
@@ -191,7 +199,7 @@ int Modo_L(char* s, car **c, int c_size, par **p, int p_size){
 	i_c = Find_Car(c,ret[0],c_size);
 
 	if(i_c == -1){
-		printf(NO_LINE_ERR_MSG, ret[0]);
+		printf("%s: no such line.\n", ret[0]);
 		if(ret[0]!=NULL)
 			free(ret[0]);
 		free(ret);
@@ -211,7 +219,7 @@ int Modo_L(char* s, car **c, int c_size, par **p, int p_size){
 	i_p_ori = Find_Par(p,ret[0],p_size);
 
 	if(i_p_ori == -1){
-		printf(NO_STOP_ERR_MSG, ret[0]);
+		printf("%s: no such stop.\n", ret[0]);
 		if(ret[0]!=NULL)
 			free(ret[0]);
 		free(ret);
@@ -231,21 +239,22 @@ int Modo_L(char* s, car **c, int c_size, par **p, int p_size){
 	i_p_des = Find_Par(p,ret[0],p_size);
 
 	if(i_p_des == -1){
-		printf(NO_STOP_ERR_MSG, ret[0]);
+		printf("%s: no such stop.\n", ret[0]);
 		if(ret[0]!=NULL)
 			free(ret[0]);
 		free(ret);
 		return 0;
 	}
 
-	sscanf(ret[1], "%lf %lf", &cost, &dur);
+	if(sscanf(ret[1], "%lf %lf", &cost, &dur) != 2)
+		exit(-1);
 	
 	if(ret[0]!=NULL)
 		free(ret[0]);
 	free(ret);
 
 	if(cost < 0 || dur < 0){
-		VAL_ERR_MSG
+		printf("negative cost or duration.\n");
 		return 0;
 	}
 	
@@ -275,7 +284,7 @@ int Modo_L(char* s, car **c, int c_size, par **p, int p_size){
 	}
 	else{
 		if(!Check_Lig(c[i_c],p[i_p_ori],p[i_p_des])){
-			LINK_ERR_MSG
+			printf("link cannot be associated with bus line.\n");
 			return 0;
 		}
 
@@ -379,11 +388,14 @@ int Modo_R(char *s, car** c,int *size){
 	if(nome == NULL)
 		return 1;
 
-	sscanf(s,"%c %s", &useless, nome);
+	if(sscanf(s,"%c %s", &useless, nome) != 2){
+		printf("Not enough arguments for mode R\n");
+		exit(1);
+	}
 
 	i = Find_Car(c,nome,(*size));
 	if(i == -1){
-		printf(NO_LINE_ERR_MSG, nome);
+		printf("%s: no such line.\n", nome);
 		free(nome);
 		return 0;
 	}
@@ -417,7 +429,7 @@ int Modo_R(char *s, car** c,int *size){
 	return 0;
 }
 
-int Modo_E(char *s, par **p, int *size){
+int Modo_E(char *s, par** p, int *size){
 	int i;
 	char *nome = NULL, **ret = NULL;
 	lis_car *temp_c = NULL;
@@ -431,7 +443,7 @@ int Modo_E(char *s, par **p, int *size){
 
 	i = Find_Par(p,nome,(*size));
 	if(i == -1){
-		printf(NO_LINE_ERR_MSG, nome);
+		printf("%s: no such stop.\n", nome);
 		free(nome);
 		free(ret);
 		return 0;
@@ -457,7 +469,6 @@ int Modo_E(char *s, par **p, int *size){
 		else{
 			for(temp_p = temp_c->this->dest; temp_p != NULL; temp_p = aux){
 				if(temp_p->this == p[i]){
-					/*If there is only a single stop left*/
 					if(temp_p->prev == temp_p->next){
 						temp_c->this->ori = NULL;
 						temp_c->this->dest = NULL;
