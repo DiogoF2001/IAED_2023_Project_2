@@ -431,7 +431,7 @@ int Modo_E(char *s, par **p, int *size){
 
 	i = Find_Par(p,nome,(*size));
 	if(i == -1){
-		printf(NO_LINE_ERR_MSG, nome);
+		printf(NO_STOP_ERR_MSG, nome);
 		free(nome);
 		free(ret);
 		return 0;
