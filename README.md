@@ -12,46 +12,18 @@ Informações detalhadas sobre o processo de submissão estão disponíveis em [
 
 # Evaluation
 
-Mon Apr 17 15:16:46 2023 +0100
+## Testes públicos do Projeto 1
 
-## Test 1: [+ Accepted+].
-## Test 2: [+ Accepted+].
-## Test 3: [+ Accepted+].
-## Test 4: [+ Accepted+].
-## Test 5: [+ Accepted+].
-## Test 6: [+ Accepted+].
-## Test 7: [+ Accepted+].
-## Test 8: [+ Accepted+].
-## Test 9: [+ Accepted+].
-## Test 10: [+ Accepted+].
-## Test 11: [+ Accepted+].
-## Test 12: [+ Accepted+].
-## Test 13: [+ Accepted+].
-## Test 14: [+ Accepted+].
-## Test 15: [+ Accepted+].
-## Test 16: [+ Accepted+].
-## Test 17: [+ Accepted+].
-## Test 18: [+ Accepted+].
-## Test 19: [+ Accepted+].
-## Test 20: [+ Accepted+].
-## Test 21: [+ Accepted+].
-## Test 22: [+ Accepted+].
-## Test 23: [+ Accepted+].
-## Test 24: [+ Accepted+].
-## Test 25: [+ Accepted+].
-## Test 26: [+ Accepted+].
-## Test 27: [+ Accepted+].
-## Test 28: [+ Accepted+].
-## Test 29: [+ Accepted+].
-## Test 30: [+ Accepted+].
-## Test 31: [+ Accepted+].
-## Test 32: [- Wrong Answer-].
+Para correr os testes públicos do Projeto 1, ir á diretoria "p1-public-tests" e correr o comado make
 
+## Testes privados do Projeto 1
 
+Para correr os testes públicos do Projeto 1, ir á diretoria "p1-private-tests" e correr o comado make
 
+## Testes públicos do Projeto 2
 
-## Number of passed tests: 31/32
+Para correr os testes públicos do Projeto 2, ir á diretoria "p2-public-tests" e correr o comado make
 
+## Testes privados do Projeto 2
 
-Your code will not be reevaluated. The project deadline has passed.
-
+Para correr os testes públicos do Projeto 2, ir á diretoria "p2-private-tests" e correr o comado make
